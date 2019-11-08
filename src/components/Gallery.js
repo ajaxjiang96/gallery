@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 import { galleryProps } from '../models/propTypes';
-import Thumbnail from './Thumbnail';
 import ImageViewer from './ImageViewer';
 import ImagePlaceholder from './ImagePlaceholder';
+import ControlButton from './ControlButton';
+import Thumbnails from './Thumbnails';
 
 
 const Gallery = ({ images, loading }) => {
@@ -35,9 +35,7 @@ const Gallery = ({ images, loading }) => {
 
   return (
     <main className="gallery">
-      <button className="galleryController" type="button" onClick={navLeft} disabled={selectedI === 0}>
-        <FontAwesomeIcon icon={faChevronLeft} />
-      </button>
+      <ControlButton icon={faChevronLeft} onClick={navLeft} disabled={selectedI === 0} />
       <div className="galleryContainer">
         {loading
           ? <ImagePlaceholder />
@@ -49,20 +47,14 @@ const Gallery = ({ images, loading }) => {
               loading={loading}
             />
           )}
-        <ul className={`${loading && 'loading'}`}>
-          {images.map((image, i) => (
-            <Thumbnail
-              key={image.id}
-              image={image}
-              onSelect={() => setSelectedI(i)}
-              selected={selectedI === i}
-            />
-          ))}
-        </ul>
+
+        <Thumbnails loading={loading} images={images} select={setSelectedI} selectedI={selectedI} />
       </div>
-      <button className="galleryController" type="button" onClick={navRight} disabled={selectedI === images.length - 1}>
-        <FontAwesomeIcon icon={faChevronRight} />
-      </button>
+      <ControlButton
+        icon={faChevronRight}
+        onClick={navRight}
+        disabled={selectedI === images.length - 1}
+      />
     </main>
   );
 };

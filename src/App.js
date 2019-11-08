@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Gallery from './components/Gallery';
 import imagesData from './data/images.json';
+import SearchableH1 from './components/SearchableH1';
 
 function App() {
   const [q, setQ] = useState('Minimal');
-  const [images, setImages] = useState(imagesData.photos.results);
+  const [images, setImages] = useState([
+    ...imagesData.photos.results,
+  ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const handleChange = (e) => {
@@ -37,9 +40,7 @@ function App() {
   return (
     <>
       <header>
-        <form onSubmit={handleSubmit}>
-          <h1><input type="text" name="q" value={q} placeholder={q} onChange={handleChange} onFocus={(e) => e.target.select()} /></h1>
-        </form>
+        <SearchableH1 onSubmit={handleSubmit} onChange={handleChange} content={q} />
       </header>
       {
         error
@@ -47,7 +48,7 @@ function App() {
           : <Gallery images={images} loading={loading} />
       }
       <footer>
-        Powered by
+        Designed by Ajax | Powered by
         {' '}
         <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unsplash</a>
       </footer>
