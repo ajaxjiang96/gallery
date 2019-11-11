@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +10,6 @@ const ControlButton = ({ icon, onClick, disabled }) => (
 );
 
 ControlButton.propTypes = {
-  icon: FontAwesomeIcon.propTypes.isRequired,
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
