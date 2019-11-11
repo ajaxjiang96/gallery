@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+
+import ImageService from './services/image';
 import Gallery from './components/Gallery';
 import imagesData from './data/images.json';
 import SearchableH1 from './components/SearchableH1';
@@ -17,24 +19,15 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     e.target.q.blur();
-    const url = new URL('https://api.unsplash.com/search/');
-    url.searchParams.append('query', q);
-    url.searchParams.append('client_id', process.env.REACT_APP_UNSPLASH_API_KEY);
     setLoading(true);
     setError('');
     setImages([]);
-    fetch(url)
-      .then((res) => res.json())
-      .then((res) => {
-        if (!res.photos.results.length) {
-          setError('Cannot Find Related Images');
-        } else {
-          setImages(res.photos.results);
-          setLoading(false);
-          document.title = `${q} | My Unsplash Gallery`;
-        }
-      })
-      .catch(() => setError('Cannot communicate with Unsplash API'));
+    ImageService.fetch(q)
+      .then(setImages)
+      .then(() => {
+        setLoading(false);
+        document.title = `${q} | My Unsplash Gallery`;
+      }).catch((err) => setError(err.message));
   };
 
   return (
