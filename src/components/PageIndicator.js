@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 
 const PageIndicator = ({ curr, total }) => (
   <span className="pagination">
-    {curr + 1}
-    {' '}
-    /
-    {' '}
-    {total}
+    {`${curr + 1} / ${total}`}
   </span>
 );
 
